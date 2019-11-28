@@ -1,8 +1,2 @@
-- name: clone the Git repo
-  git: repo=https://github.com/spotahome/redis-operator.git dest=/root/spotahome-redis-operator
-
-- name: put values
-  template: src=values.yml dest=/tmp/spotahome_redis_operator-{{ spotahome_redis_operator_helm_release }}.yml
-
-- name: upgrade {{ spotahome_redis_operator_helm_release }} release using a Helm chart
-  shell: cd /root/spotahome-redis-operator && helm upgrade {{ spotahome_redis_operator_helm_release }} charts/redisoperator --install --namespace {{ k8s_namespace }} -f /tmp/spotahome_redis_operator-{{ spotahome_redis_operator_helm_release }}.yml
+- name: create Redis operator resources
+  shell: kubectl apply -f https://raw.githubusercontent.com/spotahome/redis-operator/master/example/operator/all-redis-operator-resources.yaml -n "{{ k8s_namespace }}"
